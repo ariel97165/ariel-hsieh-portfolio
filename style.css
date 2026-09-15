@@ -1,0 +1,209 @@
+/* Ariel Hsieh, one page. White page, black text, square corners, green and pink as accents.
+   The rail on the left is the directory: a line and a title per section, it follows the scroll. */
+:root {
+  --bar: 0px;
+  --bg: #ffffff; --ink: #111111; --muted: #6b6b6b; --line: #e3e3e3; --ph: #f2f2f2;
+  --green: #0E3D2C; --pink: #FF1F8F;
+  --block: #0E3D2C; --block-ink: #ffffff; --block-muted: rgba(255,255,255,0.7);
+  --field: #ffffff; --field-line: #cfcfcf;
+  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --name-font: "Oswald", sans-serif; --name-heavy: 700; --name-scale: 1; --name-stretch: 100%;
+  --head: 88px; --foot: 104px;
+}
+html[data-palette="bottle-neon"]  { --green: #0E3D2C; --pink: #FF1F8F; --block: #0E3D2C; }
+/* Babe Williams, The Pajama Game (AMDA): factory-floor cherry and cream */
+html[data-palette="babe"] {
+  --bg: #FFF8F0; --ink: #2B1C14; --muted: #8A7360; --line: #E8D9C8; --ph: #F6EAD9;
+  --green: #7A1F2B; --pink: #FF4D5E;
+  --block: #7A1F2B; --block-ink: #ffffff; --block-muted: rgba(255,255,255,0.7);
+  --field: #FFF8F0; --field-line: #D9C3AC;
+}
+/* Fay, Wish You Were Here (AMDA): Catskills poolside sun and teal */
+html[data-palette="fay"] { --green: #0B6E68; --pink: #FFC93C; --block: #0B6E68; }
+/* Lantern, Don't Cry Dancing Girls (Taiwan): night-market red and gold */
+html[data-palette="lantern"] {
+  --bg: #160D0D; --ink: #FBE9D9; --muted: #C7A78A; --line: #3A2222; --ph: #221414;
+  --green: #ffffff; --pink: #F4B740;
+  --block: #9A1F1F; --block-ink: #ffffff; --block-muted: rgba(255,255,255,0.7);
+  --field: #160D0D; --field-line: #4a2a2a;
+}
+/* Encore: coral and turquoise */
+html[data-palette="encore"] { --green: #0FB5AE; --pink: #FF6B4A; --block: #0FB5AE; }
+/* Citrus Pop: orange and hot pink */
+html[data-palette="citruspop"] { --green: #FF7A00; --pink: #FF3EA5; --block: #FF7A00; }
+
+html[data-font="oswald"]      { --name-font: "Oswald", sans-serif; --name-heavy: 700; --name-scale: 1; --name-stretch: 100%; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; padding-top: var(--bar); font-family: var(--sans); font-size: 16px; line-height: 1.6; color: var(--ink); background: var(--bg); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+a { color: var(--ink); text-decoration: none; }
+a:hover { color: var(--pink); }
+p { margin: 0 0 1em; }
+h1, h2, h3 { margin: 0 0 0.6em; font-weight: 500; line-height: 1.15; }
+em { font-style: italic; }
+.muted { color: var(--muted); }
+.sep { color: var(--pink); padding: 0 0.2em; }
+
+/* The name: heavy caps in the chosen sans */
+.name { font-family: var(--name-font); font-weight: var(--name-heavy); font-stretch: var(--name-stretch); text-transform: uppercase; letter-spacing: 0.02em; line-height: 1; }
+.brand { display: inline-block; line-height: 1; }
+.brand:hover { color: inherit; }
+
+/* The A | H mark: colored letters, a pink rule. White on the photo and on the footer. */
+.mark { font-family: var(--name-font); font-weight: var(--name-heavy); font-stretch: var(--name-stretch); text-transform: uppercase; font-size: calc(1.9rem * var(--name-scale)); line-height: 0.9; display: inline-flex; align-items: center; letter-spacing: 0; color: var(--green); }
+.mark .rule { display: inline-block; width: 2px; height: 0.85em; background: var(--pink); margin: 0 0.3em; }
+.over .mark, .foot .mark { color: #fff; }
+.mark.small { font-size: calc(1.2rem * var(--name-scale)); }
+.stamp { margin-bottom: 1.5rem; }
+
+/* Header: just the mark */
+.head { display: flex; justify-content: space-between; align-items: center; height: var(--head); padding: 0 clamp(1.25rem, 4vw, 3rem); }
+.head .brand { font-size: calc(1.6rem * var(--name-scale)); }
+.head.over { position: absolute; top: 0; left: 0; right: 0; z-index: 2; color: #fff; }
+
+/* The rail: the directory on the left, a line and a title per section.
+   Hidden on the home section; fades in once you scroll into bio and beyond. */
+.rail { position: fixed; left: clamp(1.25rem, 4vw, 3rem); top: 50%; transform: translateY(-50%); z-index: 20; display: flex; flex-direction: column; gap: 0.9rem; margin: 0; padding: 0; list-style: none; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.rail.visible { opacity: 1; pointer-events: auto; }
+.rail a { display: flex; align-items: center; gap: 0.75rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--muted); }
+.rail a::before { content: ""; display: block; width: 22px; height: 1px; background: currentColor; transition: width 0.25s ease; }
+.rail a:hover, .rail a:focus-visible { color: var(--pink); }
+.rail a.active { color: var(--pink); }
+.rail a.active::before, .rail a:hover::before, .rail a:focus-visible::before { width: 44px; }
+
+/* The clean directory in the top right of the home header */
+.home-nav { display: flex; align-items: center; gap: clamp(1.4rem, 3vw, 2.4rem); margin: 0; padding: 0; }
+.home-nav a { display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; line-height: 1; color: var(--muted); }
+.home-nav a:hover, .home-nav a:focus-visible { color: var(--pink); }
+.home-nav a.box { padding: 0.7em; border: 1px solid currentColor; margin: -0.7em; }
+.over .home-nav a { color: rgba(255,255,255,0.85); }
+.over .home-nav a:hover, .over .home-nav a:focus-visible { color: var(--pink); }
+
+.ids { font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; margin: 0; }
+
+/* Home, desktop: Hi! on its own line, then I'm and the name in pink, photo on the right */
+.home-desk .head { border-bottom: 1px solid var(--line); }
+.hero { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - var(--bar) - var(--head)); min-height: 520px; }
+.statement { display: flex; flex-direction: column; justify-content: center; padding: clamp(2rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem) clamp(2rem, 6vw, 5rem) clamp(9rem, 14vw, 13rem); }
+.statement h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.1; margin-bottom: 0.6em; }
+.statement .hi { display: block; font-size: 1.35em; margin-bottom: 0.1em; }
+.statement .hero-name { color: var(--pink); font-size: 1em; }
+.statement .sub { color: var(--muted); max-width: 40ch; font-size: 1.05rem; }
+.photo { position: relative; min-height: 0; }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 15%; }
+
+/* Home, phone: the photo fills the screen */
+.home-mob { display: none; }
+.hero-bleed { position: relative; height: calc(100vh - var(--bar)); min-height: 520px; overflow: hidden; background: #ddd; }
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; }
+.hero-foot { position: absolute; z-index: 2; left: clamp(1.25rem, 5vw, 4rem); right: 1.25rem; bottom: clamp(1.5rem, 5vh, 3rem); color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,0.25); }
+.hero-foot .hi { font-family: var(--serif); font-size: 2.4rem; line-height: 1; margin-bottom: 0.15em; }
+.hero-foot h1 { font-family: var(--serif); font-weight: 500; font-size: 1.6rem; line-height: 1; margin-bottom: 0.5em; }
+.hero-foot .hero-name { font-size: calc(2.6rem * var(--name-scale)); color: var(--pink); display: block; margin-top: 0.15em; }
+.hero-foot .ids { color: #fff; }
+
+/* Sections: centered, title in the name font, pink period */
+.main { max-width: 900px; margin: 0 auto; padding: clamp(3rem, 10vh, 7rem) clamp(1.25rem, 5vw, 4rem) clamp(2rem, 6vh, 4rem) clamp(10rem, 16vw, 12rem); scroll-margin-top: var(--bar); border-top: 1px solid var(--line); }
+.title { text-align: center; font-family: var(--name-font); font-stretch: var(--name-stretch); font-weight: var(--name-heavy); font-size: calc(3rem * var(--name-scale)); color: var(--green); margin-bottom: 1.5em; }
+.title::after { content: "."; color: var(--pink); }
+.resume { margin: 0 auto; }
+.actions { text-align: center; }
+.about { display: grid; grid-template-columns: 1fr 1.3fr; gap: 3rem; align-items: start; }
+.about-photo img { aspect-ratio: 2/3; object-fit: cover; object-position: 50% 15%; }
+.contact { margin: 0 auto; }
+.contact-line { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; margin: 0 0 0.85em; }
+.contact-line .icon { width: 1.1em; height: 1.1em; flex: none; }
+.contact-line a { word-break: break-all; }
+.contact .muted { font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* Links and small actions */
+.actions { font-size: 0.9rem; margin-bottom: 2rem; }
+.actions a { text-decoration: underline; text-underline-offset: 3px; }
+.actions a.pending { color: var(--muted); }
+figcaption a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Placeholders: quiet grey blocks */
+.ph { background: var(--ph); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; text-align: center; padding: 1rem; }
+.ph.portrait { aspect-ratio: 2 / 3; }
+.ph.video { aspect-ratio: 16 / 9; }
+.ph.still { aspect-ratio: 4 / 3; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+figure { margin: 0; }
+figure img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; object-position: 50% 18%; }
+figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
+.block { margin-bottom: 3.5rem; }
+.block h2 { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); border-bottom: 1px solid var(--line); padding-bottom: 0.6em; margin-bottom: 1.25em; }
+
+/* Facts */
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 2rem; margin: 2rem 0 0; }
+.facts div { border-top: 1px solid var(--line); padding-top: 0.5rem; }
+.facts dt { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; }
+
+/* Resume */
+.resume { max-width: 760px; }
+.resume header { text-align: center; margin-bottom: 2rem; }
+.resume header h2 { font-family: var(--serif); font-weight: 600; font-size: 2.2rem; margin-bottom: 0.2em; }
+.resume header p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.resume section { margin-bottom: 1.75rem; }
+.resume h3 { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); border-bottom: 1px solid var(--ink); padding-bottom: 0.4em; margin-bottom: 0.6em; }
+.resume .lead { margin-bottom: 0.4em; }
+.resume .row { display: grid; grid-template-columns: 1.3fr 1fr 1.4fr; gap: 1rem; padding: 0.2em 0; font-size: 0.95rem; }
+.resume .row.t { grid-template-columns: 1fr 2.4fr; }
+.resume .show { font-style: italic; }
+.resume .row.t .show { font-style: normal; }
+.resume .co { color: var(--muted); }
+
+/* Contact */
+.contact { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start; max-width: 900px; }
+.contact form { display: grid; gap: 1rem; }
+.contact label { display: grid; gap: 0.35rem; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.contact input, .contact textarea { font: inherit; font-size: 1rem; letter-spacing: 0; text-transform: none; color: var(--ink); padding: 0.6em 0.75em; border: 1px solid var(--field-line); background: var(--field); }
+.contact input:focus, .contact textarea:focus { outline: none; border-color: var(--ink); }
+.contact button { justify-self: start; font: inherit; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; background: none; border: 1px solid var(--ink); padding: 0.6em 1.4em; cursor: pointer; color: var(--ink); }
+.contact button:hover { border-color: var(--pink); color: var(--pink); }
+
+/* Footer: green */
+.foot { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: center; min-height: var(--foot); padding: 1.5rem; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; background: var(--block); color: var(--block-muted); }
+.foot a { color: var(--block-ink); }
+.foot a:hover { color: var(--pink); }
+
+/* Narrower screens: the hero statement tightens its gutter */
+@media (max-width: 1180px) {
+  .statement { padding-left: clamp(5rem, 9vw, 8rem); }
+}
+
+/* Phones */
+@media (max-width: 760px) {
+  .home-desk { display: none; }
+  .home-mob { display: block; }
+  .rail { left: auto; right: 0.9rem; gap: 0.8rem; align-items: flex-end; }
+  .rail a { flex-direction: row-reverse; font-size: 0.62rem; }
+  .rail a::before { width: 16px; }
+  .rail a.active::before { width: 28px; }
+  .hero-foot { right: 4rem; }
+  .home-nav { gap: 0.75rem; }
+  .home-nav a { font-size: 0.6rem; }
+  .main { padding-right: 6.5rem; }
+  .grid3, .about, .contact { grid-template-columns: 1fr; }
+  .resume .row, .resume .row.t { grid-template-columns: 1fr; gap: 0; padding: 0.5em 0; }
+  .foot { gap: 0.75rem 1.25rem; }
+}
+
+/* Draft controls: color and name font, for choosing */
+#draft-bar { position: fixed; top: 0; left: 0; right: 0; min-height: 44px; z-index: 9999; background: #161616; color: #ddd; font: 500 12px/1 var(--sans); display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 6px 12px; overflow-x: auto; white-space: nowrap; letter-spacing: 0; text-transform: none; }
+#draft-bar .br { flex-basis: 100%; height: 0; }
+#draft-bar .g { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+#draft-bar .l { color: #888; margin-right: 4px; }
+#draft-bar button { font: inherit; color: #ddd; background: #2a2a2a; border: 0; padding: 6px 9px; cursor: pointer; }
+#draft-bar button:hover { background: #3a3a3a; }
+#draft-bar button.on { background: #eee; color: #111; }
+#draft-bar .sw { display: inline-block; width: 9px; height: 9px; margin-right: 5px; vertical-align: -1px; }
+#draft-bar .sp { flex: 1; }
+body.draft-hidden #draft-bar { display: none; }
+#draft-show { position: fixed; bottom: 12px; right: 12px; z-index: 9999; font: 500 12px var(--sans); background: #161616; color: #ddd; border: 0; padding: 7px 10px; cursor: pointer; display: none; }
+body.draft-hidden #draft-show { display: block; }
+@media (max-width: 760px) { #draft-bar { flex-wrap: nowrap; height: 44px; padding: 0 12px; } #draft-bar .g { flex-wrap: nowrap; } #draft-bar .br, #draft-bar .sp { display: none; } }

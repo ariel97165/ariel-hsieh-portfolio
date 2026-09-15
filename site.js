@@ -1,8 +1,8 @@
 (function () {
-  var PALETTES = [["bottle-neon","Bottle + neon","#ffffff","#111111","#0E3D2C","#FF1F8F"],["babe","Babe — cherry + cream","#FFF8F0","#2B1C14","#7A1F2B","#FF4D5E"],["fay","Fay — sun + teal","#ffffff","#111111","#0B6E68","#FFC93C"],["lantern","Lantern — red + gold","#160D0D","#FBE9D9","#ffffff","#F4B740"],["encore","Encore — coral + turquoise","#ffffff","#111111","#0FB5AE","#FF6B4A"],["citruspop","Citrus Pop — orange + pink","#ffffff","#111111","#FF7A00","#FF3EA5"]]; var FONTSETS = [["oswald","Oswald"]];
+  var PALETTES = [["citruspop","Citrus Pop — orange + pink","#ffffff","#111111","#FF7A00","#FF3EA5"],["babe","Babe — cherry + cream","#FFF8F0","#2B1C14","#7A1F2B","#FF4D5E"]]; var FONTSETS = [["oswald","Oswald"]];
   var KEYS = ["palette","font"];
   var root = document.documentElement;
-  var state = {"palette":"babe","font":"oswald","hidden":true};
+  var state = {"palette":"citruspop","font":"oswald","hidden":true};
   try { Object.assign(state, JSON.parse(localStorage.getItem("ariel-r6") || "{}")); } catch (e) {}
   var q = new URLSearchParams(location.search);
   KEYS.forEach(function (k) { if (q.get(k)) state[k] = q.get(k); });
@@ -17,10 +17,22 @@
   bar.innerHTML = h; document.body.appendChild(bar);
   var show = document.createElement("button"); show.id = "draft-show"; show.textContent = "Choose color and font"; document.body.appendChild(show);
   function measure() { document.body.style.setProperty("--bar", state.hidden ? "0px" : bar.offsetHeight + "px"); }
+  var favicon = document.querySelector('link[rel="icon"]');
+  function updateFavicon() {
+    var p = PALETTES.filter(function (p) { return p[0] === state.palette; })[0] || PALETTES[0];
+    var bg = p[4], accent = p[5];
+    var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>" +
+      "<rect width='64' height='64' fill='" + bg + "'/>" +
+      "<text x='4' y='47' font-family='Arial Narrow, Impact, sans-serif' font-weight='700' font-size='38' fill='#fff'>A H</text>" +
+      "<rect x='29' y='16' width='3' height='30' fill='" + accent + "'/>" +
+      "</svg>";
+    if (favicon) favicon.setAttribute("href", "data:image/svg+xml," + encodeURIComponent(svg));
+  }
   function apply() {
     KEYS.forEach(function (k) { root.setAttribute("data-" + k, state[k]); });
     document.body.classList.toggle("draft-hidden", !!state.hidden);
     document.querySelectorAll("#draft-bar [data-k]").forEach(function (b) { b.classList.toggle("on", state[b.dataset.k] === b.dataset.v); });
+    updateFavicon();
     measure();
   }
   bar.addEventListener("click", function (e) {

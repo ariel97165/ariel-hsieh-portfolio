@@ -11,7 +11,8 @@
   --name-font: "Oswald", sans-serif; --name-heavy: 700; --name-scale: 1; --name-stretch: 100%;
   --head: 88px; --foot: 104px;
 }
-html[data-palette="bottle-neon"]  { --green: #0E3D2C; --pink: #FF1F8F; --block: #0E3D2C; }
+/* Citrus Pop: orange and hot pink */
+html[data-palette="citruspop"] { --green: #FF7A00; --pink: #FF3EA5; --block: #FF7A00; }
 /* Babe Williams, The Pajama Game (AMDA): factory-floor cherry and cream */
 html[data-palette="babe"] {
   --bg: #FFF8F0; --ink: #2B1C14; --muted: #8A7360; --line: #E8D9C8; --ph: #F6EAD9;
@@ -19,19 +20,6 @@ html[data-palette="babe"] {
   --block: #7A1F2B; --block-ink: #ffffff; --block-muted: rgba(255,255,255,0.7);
   --field: #FFF8F0; --field-line: #D9C3AC;
 }
-/* Fay, Wish You Were Here (AMDA): Catskills poolside sun and teal */
-html[data-palette="fay"] { --green: #0B6E68; --pink: #FFC93C; --block: #0B6E68; }
-/* Lantern, Don't Cry Dancing Girls (Taiwan): night-market red and gold */
-html[data-palette="lantern"] {
-  --bg: #160D0D; --ink: #FBE9D9; --muted: #C7A78A; --line: #3A2222; --ph: #221414;
-  --green: #ffffff; --pink: #F4B740;
-  --block: #9A1F1F; --block-ink: #ffffff; --block-muted: rgba(255,255,255,0.7);
-  --field: #160D0D; --field-line: #4a2a2a;
-}
-/* Encore: coral and turquoise */
-html[data-palette="encore"] { --green: #0FB5AE; --pink: #FF6B4A; --block: #0FB5AE; }
-/* Citrus Pop: orange and hot pink */
-html[data-palette="citruspop"] { --green: #FF7A00; --pink: #FF3EA5; --block: #FF7A00; }
 
 html[data-font="oswald"]      { --name-font: "Oswald", sans-serif; --name-heavy: 700; --name-scale: 1; --name-stretch: 100%; }
 
@@ -187,9 +175,10 @@ figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
   .hero-foot { right: 4rem; }
   .home-nav { gap: 0.75rem; }
   .home-nav a { font-size: 0.6rem; }
-  .main { padding-right: 6.5rem; }
+  .main { padding-left: 1.5rem; padding-right: 3rem; }
   .grid3, .about, .contact { grid-template-columns: 1fr; }
-  .resume .row, .resume .row.t { grid-template-columns: 1fr; gap: 0; padding: 0.5em 0; }
+  .resume .row { grid-template-columns: 1.3fr 1fr 1.4fr; gap: 0.4rem; padding: 0.35em 0; font-size: 0.68rem; }
+  .resume .row.t { grid-template-columns: 1fr 2.4fr; }
   .foot { gap: 0.75rem 1.25rem; }
 }
 

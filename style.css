@@ -13,13 +13,12 @@
 }
 /* Citrus Pop: orange and hot pink */
 html[data-palette="citruspop"] { --green: #FF7A00; --pink: #FF3EA5; --block: #FF7A00; }
-/* Babe Williams, The Pajama Game (AMDA): factory-floor cherry and cream */
-html[data-palette="babe"] {
-  --bg: #FFF8F0; --ink: #2B1C14; --muted: #8A7360; --line: #E8D9C8; --ph: #F6EAD9;
-  --green: #7A1F2B; --pink: #FF4D5E;
-  --block: #7A1F2B; --block-ink: #ffffff; --block-muted: rgba(255,255,255,0.7);
-  --field: #FFF8F0; --field-line: #D9C3AC;
-}
+/* Encore: coral and turquoise */
+html[data-palette="encore"] { --green: #0FB5AE; --pink: #FF6B4A; --block: #0FB5AE; }
+/* Blaze: red and yellow */
+html[data-palette="blaze"] { --green: #FF3B30; --pink: #FFD400; --block: #FF3B30; }
+/* Blaze's yellow is unreadable straight on white, so the name gets a red chip behind it */
+html[data-palette="blaze"] .hero-name { background: var(--green); padding: 0.05em 0.3em; width: fit-content; }
 
 html[data-font="oswald"]      { --name-font: "Oswald", sans-serif; --name-heavy: 700; --name-scale: 1; --name-stretch: 100%; }
 
@@ -54,7 +53,7 @@ em { font-style: italic; }
 
 /* The rail: the directory on the left, a line and a title per section.
    Hidden on the home section; fades in once you scroll into bio and beyond. */
-.rail { position: fixed; left: clamp(1.25rem, 4vw, 3rem); top: 50%; transform: translateY(-50%); z-index: 20; display: flex; flex-direction: column; gap: 0.9rem; margin: 0; padding: 0; list-style: none; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.rail { position: fixed; left: clamp(1.25rem, 4vw, 3rem); top: 50%; transform: translateY(-50%); z-index: 20; display: flex; flex-direction: column; gap: 1.3rem; margin: 0; padding: 0; list-style: none; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
 .rail.visible { opacity: 1; pointer-events: auto; }
 .rail a { display: flex; align-items: center; gap: 0.75rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--muted); }
 .rail a::before { content: ""; display: block; width: 22px; height: 1px; background: currentColor; transition: width 0.25s ease; }
@@ -94,18 +93,21 @@ em { font-style: italic; }
 .hero-foot .ids { color: #fff; }
 
 /* Sections: centered, title in the name font, pink period */
-.main { max-width: 900px; margin: 0 auto; padding: clamp(3rem, 10vh, 7rem) clamp(1.25rem, 5vw, 4rem) clamp(2rem, 6vh, 4rem) clamp(10rem, 16vw, 12rem); scroll-margin-top: var(--bar); border-top: 1px solid var(--line); }
+.main { max-width: 900px; margin: 0 auto; padding: clamp(3rem, 10vh, 7rem) clamp(1.25rem, 5vw, 4rem) clamp(2rem, 6vh, 4rem); scroll-margin-top: var(--bar); border-top: 1px solid var(--line); }
 .title { text-align: center; font-family: var(--name-font); font-stretch: var(--name-stretch); font-weight: var(--name-heavy); font-size: calc(3rem * var(--name-scale)); color: var(--green); margin-bottom: 1.5em; }
 .title::after { content: "."; color: var(--pink); }
 .resume { margin: 0 auto; }
 .actions { text-align: center; }
 .about { display: grid; grid-template-columns: 1fr 1.3fr; gap: 3rem; align-items: start; }
-.about-photo img { aspect-ratio: 2/3; object-fit: cover; object-position: 50% 15%; }
+.about-photo { position: relative; }
+.crop-frame { position: relative; aspect-ratio: 2/3; overflow: hidden; background: var(--ph); }
+.crop-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: center center; }
 .contact { margin: 0 auto; }
 .contact-line { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; margin: 0 0 0.85em; }
 .contact-line .icon { width: 1.1em; height: 1.1em; flex: none; }
 .contact-line a { word-break: break-all; }
 .contact .muted { font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.bio-name { color: var(--pink); font-weight: 700; }
 
 /* Links and small actions */
 .actions { font-size: 0.9rem; margin-bottom: 2rem; }
@@ -168,14 +170,13 @@ figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; }
 @media (max-width: 760px) {
   .home-desk { display: none; }
   .home-mob { display: block; }
-  .rail { left: auto; right: 0.9rem; gap: 0.8rem; align-items: flex-end; }
+  .rail { left: auto; right: 0.9rem; gap: 1.1rem; align-items: flex-end; }
   .rail a { flex-direction: row-reverse; font-size: 0.62rem; }
   .rail a::before { width: 16px; }
   .rail a.active::before { width: 28px; }
   .hero-foot { right: 4rem; }
   .home-nav { gap: 0.75rem; }
   .home-nav a { font-size: 0.6rem; }
-  .main { padding-left: 1.5rem; padding-right: 3rem; }
   .grid3, .about, .contact { grid-template-columns: 1fr; }
   .resume .row { grid-template-columns: 1.3fr 1fr 1.4fr; gap: 0.4rem; padding: 0.35em 0; font-size: 0.68rem; }
   .resume .row.t { grid-template-columns: 1fr 2.4fr; }

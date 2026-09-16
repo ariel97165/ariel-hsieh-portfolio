@@ -1,8 +1,8 @@
 (function () {
-  var PALETTES = [["citruspop","Citrus Pop — orange + pink","#ffffff","#111111","#FF7A00","#FF3EA5"],["babe","Babe — cherry + cream","#FFF8F0","#2B1C14","#7A1F2B","#FF4D5E"]]; var FONTSETS = [["oswald","Oswald"]];
+  var PALETTES = [["citruspop","Citrus Pop — orange + pink","#ffffff","#111111","#FF7A00","#FF3EA5"],["encore","Encore — coral + turquoise","#ffffff","#111111","#0FB5AE","#FF6B4A"],["blaze","Blaze — red + yellow","#ffffff","#111111","#FF3B30","#FFD400"]]; var FONTSETS = [["oswald","Oswald"]];
   var KEYS = ["palette","font"];
   var root = document.documentElement;
-  var state = {"palette":"citruspop","font":"oswald","hidden":true};
+  var state = {"palette":"citruspop","font":"oswald","hidden":false};
   try { Object.assign(state, JSON.parse(localStorage.getItem("ariel-r6") || "{}")); } catch (e) {}
   var q = new URLSearchParams(location.search);
   KEYS.forEach(function (k) { if (q.get(k)) state[k] = q.get(k); });
@@ -50,10 +50,11 @@
   var links = document.querySelectorAll(".rail a");
   var secs = Array.prototype.slice.call(document.querySelectorAll("[data-section]"));
   var rail = document.querySelector(".rail");
-  var railTimer, railHovered = false;
+  var railTimer, railHovered = false, curSection = "top";
   function spy() {
     var y = window.scrollY + window.innerHeight * 0.45; var cur = "top";
     secs.forEach(function (s) { if (s.offsetTop <= y) cur = s.id; });
+    curSection = cur;
     links.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + cur); });
     clearTimeout(railTimer);
     if (cur === "top") { rail.classList.remove("visible"); return; }
@@ -65,7 +66,22 @@
     railHovered = false;
     if (rail.classList.contains("visible")) railTimer = setTimeout(function () { rail.classList.remove("visible"); }, 1200);
   });
-  window.addEventListener("scroll", spy, { passive: true }); window.addEventListener("resize", spy); spy();
+  // Bring the rail back if the mouse rests near where it lives, even after it's faded out
+  var EDGE = 130;
+  window.addEventListener("mousemove", function (e) {
+    if (curSection === "top") return;
+    var mobile = window.innerWidth <= 760;
+    var near = mobile ? (window.innerWidth - e.clientX <= EDGE) : (e.clientX <= EDGE);
+    if (near) {
+      railHovered = true;
+      clearTimeout(railTimer);
+      rail.classList.add("visible");
+    } else if (railHovered) {
+      railHovered = false;
+      railTimer = setTimeout(function () { rail.classList.remove("visible"); }, 1200);
+    }
+  });
+  window.addEventListener("scroll", spy, { passive: true }); window.addEventListener("touchmove", spy, { passive: true }); window.addEventListener("resize", spy); spy();
 })();
 function sendMail(f) {
   location.href = "mailto:ariych31@gmail.com?subject=" + encodeURIComponent("Website message from " + f.name.value) + "&body=" + encodeURIComponent(f.message.value + "\n\nFrom: " + f.name.value + " <" + f.email.value + ">");
